@@ -1,15 +1,15 @@
 import SupabaseService from "./supabase.service";
 
-class ClientService {
+class TaskService{
 
     async getAll(){
 
         return await SupabaseService.client
-            .from("clients")
+            .from("tasks")
             .select("*");
 
     }
 
 }
 
-export default new ClientService();
+export default new TaskService();
