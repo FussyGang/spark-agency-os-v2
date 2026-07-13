@@ -1,49 +1,47 @@
-import LeadCard from "../components/LeadCard";
-
 import { useLeads } from "../hooks/useLeads";
+import { Link } from "react-router-dom";
 
-export default function LeadsPage(){
+export default function LeadsPage() {
+  const { leads, loading } = useLeads();
 
-    const{
+  if (loading) {
+    return (
+      <div className="rounded-xl bg-white p-6 shadow">
+        Loading leads...
+      </div>
+    );
+  }
 
-        leads,
+  return (
+    <div className="rounded-xl bg-white p-6 shadow">
+      <h2 className="mb-6 text-2xl font-bold">
+        Leads ({leads.length})
+      </h2>
 
-        loading
+      {leads.length === 0 ? (
+        <p>No Leads Found.</p>
+      ) : (
+        <div className="space-y-4">
+          {leads.map((lead: any) => (
+            <Link
+              to={`/leads/${lead.id}`}
+              key={lead.id}
+            >
+            <div className="rounded-lg border p-4 transition hover:border-blue-500 hover:shadow-md">
+              <h3 className="font-semibold">
+                {lead.company_name}
+              </h3>
 
-    }=useLeads();
+              <p>{lead.contact_name}</p>
 
-    if(loading)
+              <p>{lead.email}</p>
 
-        return(
-
-            <div className="p-10">
-
-                Loading...
-
-            </div>
-
-        );
-
-    return(
-
-        <div className="grid grid-cols-3 gap-5">
-
-            {leads.map((lead:any)=>(
-
-                <LeadCard
-
-                    key={lead.id}
-
-                    company_name={lead.company_name}
-
-                    contact_name={lead.contact_name}
-
-                />
-
-            ))}
-
+              <p>{lead.phone}</p>
+              </div>
+            </Link>
+          ))}
         </div>
-
-    )
-
+      )}
+    </div>
+  );
 }
